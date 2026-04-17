@@ -20,11 +20,13 @@ app.use(express.static("public"));
 import healthcheckRoute from "./routes/healthcheckRoutes.js";
 import authRoute from "./routes/authRoutes.js";
 import urlRoutes from "./routes/urlRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
 import redirectRoutes from "./routes/redirectRoutes.js";
 
 app.use("/api/v1/healthcheck", healthcheckRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/urls", urlRoutes);
+app.use("/api/v1/analytics", analyticsRoutes);
 
 // Public redirect route (must be last)
 app.use("/", redirectRoutes);
