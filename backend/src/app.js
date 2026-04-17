@@ -19,8 +19,10 @@ app.use(express.static("public"));
 // import routes
 import healthcheckRoute from "./routes/healthcheckRoutes.js";
 import authRoute from "./routes/authRoutes.js";
+import urlRoutes from "./routes/urlRoutes.js";
 
 app.use("/api/v1/healthcheck", healthcheckRoute);
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/urls", urlRoutes);
 
 export default app;
