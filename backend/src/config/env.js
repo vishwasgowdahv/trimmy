@@ -18,6 +18,7 @@ export const ENV = {
 
   JWT_SECRET: process.env.JWT_SECRET,
   BASE_URL: process.env.BASE_URL,
+  
   MAIL_HOST:process.env.MAIL_HOST,
   MAIL_PORT:process.env.MAIL_PORT,
   MAIL_USER:process.env.MAIL_USER,

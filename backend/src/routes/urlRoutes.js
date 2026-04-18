@@ -7,7 +7,10 @@ import { authenticate } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-// POST /api/v1/urls  GET /api/v1/urls
-router.route("/").post(authenticate, createShortUrl).get(authenticate, getUserUrls);
+// POST /api/v1/urls
+router.route("/").post(authenticate, createShortUrl);
+
+// GET /api/v1/urls
+router.route("/").get(authenticate, getUserUrls);
 
 export default router;
