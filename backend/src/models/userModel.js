@@ -6,13 +6,13 @@ async function createUser(
   email,
   passwordHash,
   verificationToken,
-  verificationExpires
+  verificationExpires,
 ) {
   const [result] = await pool.execute(
     `INSERT INTO users 
     (name, email, password_hash, email_verification_token, email_verification_expires)
      VALUES (?, ?, ?, ?, ?)`,
-    [name, email, passwordHash, verificationToken, verificationExpires]
+    [name, email, passwordHash, verificationToken, verificationExpires],
   );
 
   return result.insertId;
@@ -20,10 +20,9 @@ async function createUser(
 
 // Find user by email
 async function findUserByEmail(email) {
-  const [rows] = await pool.execute(
-    `SELECT * FROM users WHERE email = ?`,
-    [email]
-  );
+  const [rows] = await pool.execute(`SELECT * FROM users WHERE email = ?`, [
+    email,
+  ]);
   return rows[0];
 }
 
@@ -36,7 +35,7 @@ async function verifyUserEmail(token) {
          email_verification_expires = NULL
      WHERE email_verification_token = ?
        AND email_verification_expires > NOW()`,
-    [token]
+    [token],
   );
 
   return result.affectedRows;
@@ -48,10 +47,9 @@ async function saveRefreshToken(userId, token, expires) {
     `UPDATE users 
      SET refresh_token = ?, refresh_token_expires = ?
      WHERE id = ?`,
-    [token, expires, userId]
+    [token, expires, userId],
   );
 }
-
 
 // Set forgot password token
 async function setResetToken(userId, token, expires) {
@@ -59,7 +57,7 @@ async function setResetToken(userId, token, expires) {
     `UPDATE users
      SET reset_password_token = ?, reset_password_expires = ?
      WHERE id = ?`,
-    [token, expires, userId]
+    [token, expires, userId],
   );
 }
 
@@ -72,10 +70,17 @@ async function resetPassword(token, newPasswordHash) {
          reset_password_expires = NULL
      WHERE reset_password_token = ?
        AND reset_password_expires > NOW()`,
-    [newPasswordHash, token]
+    [newPasswordHash, token],
   );
 
   return result.affectedRows;
-};
+}
 
-export { createUser, findUserByEmail, verifyUserEmail, saveRefreshToken, setResetToken, resetPassword };
+export {
+  createUser,
+  findUserByEmail,
+  verifyUserEmail,
+  saveRefreshToken,
+  setResetToken,
+  resetPassword,
+};

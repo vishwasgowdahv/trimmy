@@ -5,7 +5,7 @@ async function createUrl(userId, shortCode, originalUrl) {
   const [result] = await pool.execute(
     `INSERT INTO urls (user_id, short_code, original_url)
      VALUES (?, ?, ?)`,
-    [userId, shortCode, originalUrl]
+    [userId, shortCode, originalUrl],
   );
 
   return result.insertId;
@@ -15,7 +15,7 @@ async function createUrl(userId, shortCode, originalUrl) {
 async function findUrlByShortCode(shortCode) {
   const [rows] = await pool.execute(
     `SELECT * FROM urls WHERE short_code = ? AND is_active = TRUE`,
-    [shortCode]
+    [shortCode],
   );
 
   return rows[0];
@@ -25,7 +25,7 @@ async function findUrlByShortCode(shortCode) {
 async function getUrlsByUser(userId) {
   const [rows] = await pool.execute(
     `SELECT * FROM urls WHERE user_id = ? ORDER BY created_at DESC`,
-    [userId]
+    [userId],
   );
 
   return rows;
@@ -33,10 +33,10 @@ async function getUrlsByUser(userId) {
 
 // Delete URL
 async function deleteUrl(urlId, userId) {
-  await pool.execute(
-    `DELETE FROM urls WHERE id = ? AND user_id = ?`,
-    [urlId, userId]
-  );
+  await pool.execute(`DELETE FROM urls WHERE id = ? AND user_id = ?`, [
+    urlId,
+    userId,
+  ]);
 }
 
 export { createUrl, findUrlByShortCode, getUrlsByUser, deleteUrl };

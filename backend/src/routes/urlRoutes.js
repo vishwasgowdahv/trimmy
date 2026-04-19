@@ -1,8 +1,5 @@
 import express from "express";
-import {
-  createShortUrl,
-  getUserUrls,
-} from "../controllers/urlController.js";
+import { createShortUrl, getUserUrls } from "../controllers/urlController.js";
 import { authenticate } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();

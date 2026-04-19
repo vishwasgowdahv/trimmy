@@ -16,10 +16,11 @@ async function createShortUrl(req, res) {
 
     const shortUrl = `${process.env.BASE_URL}/${shortCode}`;
 
-    res.status(201).json({
-      message: "Short URL created",
-      shortUrl,
-    });
+    res.status(201).json(
+      new ApiResponse(201, shortUrl, {
+        message: "Short URL created",
+      }),
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -33,10 +34,14 @@ async function getUserUrls(req, res) {
 
     const urls = await getUrlsByUser(userId);
 
-    res.json(urls);
+    res.status(200).json(
+      new ApiResponse(200, urls, {
+        message: "URLs fetched successfully",
+      })
+    );
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
-};
+}
 
 export { createShortUrl, getUserUrls };

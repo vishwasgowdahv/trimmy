@@ -1,15 +1,12 @@
 import { pool } from "../db/db.js";
 
 // Initialize stats row
-export async function createUrlStats(urlId) {
-  await pool.execute(
-    `INSERT INTO url_stats (url_id) VALUES (?)`,
-    [urlId]
-  );
+async function createUrlStats(urlId) {
+  await pool.execute(`INSERT INTO url_stats (url_id) VALUES (?)`, [urlId]);
 }
 
 // Increment stats
-export async function incrementStats(urlId, deviceType) {
+async function incrementStats(urlId, deviceType) {
   let deviceColumn = "desktop_clicks";
 
   if (deviceType === "mobile") deviceColumn = "mobile_clicks";
@@ -21,16 +18,18 @@ export async function incrementStats(urlId, deviceType) {
          ${deviceColumn} = ${deviceColumn} + 1,
          last_clicked_at = NOW()
      WHERE url_id = ?`,
-    [urlId]
+    [urlId],
   );
 }
 
 // Get stats
-export async function getUrlStats(urlId) {
+async function getUrlStats(urlId) {
   const [rows] = await pool.execute(
     `SELECT * FROM url_stats WHERE url_id = ?`,
-    [urlId]
+    [urlId],
   );
 
   return rows[0];
 }
+
+export { createUrlStats, incrementStats, getUrlStats };

@@ -23,10 +23,10 @@ import { ApiResponse } from "../utils/api-response.js";
 async function signup(req, res) {
   try {
     const { name, email, password } = req.body;
-    
+
     const existing = await findUserByEmail(email);
     if (existing) {
-      return res.status(400).json({ message: "User exists" });
+      return res.status(400).json(new ApiResponse(400, null, "User exists"));
     }
 
     const hashed = await bcrypt.hash(password, 10);
@@ -34,19 +34,15 @@ async function signup(req, res) {
     const token = crypto.randomBytes(32).toString("hex");
     const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-    const userId = await createUser(
-      name,
-      email,
-      hashed,
-      token,
-      expires
-    );
-    
+    const userId = await createUser(name, email, hashed, token, expires);
+
     await sendVerificationEmail(email, token);
 
-    res.status(201).json({
-      message: "Signup successful. Verify your email.",
-    });
+    res.status(201).json(
+      new ApiResponse(201, userId, {
+        message: "Signup successful. Verify your email.",
+      }),
+    );
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
@@ -59,10 +55,14 @@ async function verifyEmail(req, res) {
   const success = await verifyUserEmail(token);
 
   if (!success) {
-    return res.status(400).json({ message: "Invalid/expired token" });
+    return res
+      .status(400)
+      .json(new ApiResponse(400, null, "Invalid/expired token"));
   }
 
-  res.json({ message: "Email verified successfully" });
+  res
+    .status(200)
+    .json(new ApiResponse(200, null, "Email verified successfully"));
 }
 
 // LOGIN
@@ -70,14 +70,22 @@ async function login(req, res) {
   const { email, password } = req.body;
 
   const user = await findUserByEmail(email);
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+  if (!user)
+    return res
+      .status(400)
+      .json(new ApiResponse(400, null, { message: "Invalid credentials" }));
 
   if (!user.is_email_verified) {
-    return res.status(403).json({ message: "Verify email first" });
+    return res
+      .status(403)
+      .json(new ApiResponse(403, null, { message: "Verify email first" }));
   }
 
   const match = await bcrypt.compare(password, user.password_hash);
-  if (!match) return res.status(400).json({ message: "Invalid credentials" });
+  if (!match)
+    return res
+      .status(400)
+      .json(new ApiResponse(400, null, { message: "Invalid credentials" }));
 
   const accessToken = jwt.sign({ id: user.id }, ENV.JWT_SECRET, {
     expiresIn: "15m",
@@ -91,7 +99,11 @@ async function login(req, res) {
 
   await saveRefreshToken(user.id, refreshToken, expiry);
 
-  res.json({ accessToken, refreshToken });
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, { accessToken, refreshToken }, "Login Successful"),
+    );
 }
 
 // FORGOT PASSWORD
@@ -99,7 +111,10 @@ async function forgotPassword(req, res) {
   const { email } = req.body;
 
   const user = await findUserByEmail(email);
-  if (!user) return res.json({ message: "If exists, email sent" });
+  if (!user)
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, "If exists, email sent"));
 
   const token = crypto.randomBytes(32).toString("hex");
   const expiry = new Date(Date.now() + 1 * 60 * 60 * 1000);
@@ -108,7 +123,7 @@ async function forgotPassword(req, res) {
 
   await sendResetEmail(email, token);
 
-  res.json({ message: "Reset email sent" });
+  res.status(200).json(new ApiResponse(200, null, "Reset email sent"));
 }
 
 // RESET PASSWORD
@@ -120,10 +135,14 @@ async function resetPasswordController(req, res) {
   const success = await resetPassword(token, hashed);
 
   if (!success) {
-    return res.status(400).json({ message: "Invalid/expired token" });
+    return res
+      .status(400)
+      .json(new ApiResponse(400, null, { message: "Invalid/expired token" }));
   }
 
-  res.json({ message: "Password reset successful" });
-};
+  res
+    .status(200)
+    .json(new ApiResponse(200, null, { message: "Password reset successful" }));
+}
 
 export { signup, verifyEmail, login, forgotPassword, resetPasswordController };

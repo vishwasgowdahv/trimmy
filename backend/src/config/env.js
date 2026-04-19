@@ -5,8 +5,6 @@ dotenv.config({
   path: path.resolve(process.cwd(), "./.env"),
 });
 
-
-
 export const ENV = {
   PORT: process.env.PORT || 3000,
 
@@ -18,11 +16,11 @@ export const ENV = {
 
   JWT_SECRET: process.env.JWT_SECRET,
   BASE_URL: process.env.BASE_URL,
-  
-  MAIL_HOST:process.env.MAIL_HOST,
-  MAIL_PORT:process.env.MAIL_PORT,
-  MAIL_USER:process.env.MAIL_USER,
-  MAIL_PASS:process.env.MAIL_PASS,
-  MAIL_FROM:process.env.MAIL_FROM,
-  MAIL_APIKEY:process.env.MAIL_APIKEY,
+
+  MAIL_HOST: process.env.MAIL_HOST,
+  MAIL_PORT: process.env.MAIL_PORT,
+  MAIL_USER: process.env.MAIL_USER,
+  MAIL_PASS: process.env.MAIL_PASS,
+  MAIL_FROM: process.env.MAIL_FROM,
+  MAIL_APIKEY: process.env.MAIL_APIKEY,
 };

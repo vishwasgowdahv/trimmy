@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 // Email Verification
 async function sendVerificationEmail(email, token) {
   const link = `${ENV.BASE_URL}/api/v1/auth/verify-email?token=${token}`;
- 
+
   await transporter.sendMail({
     from: ENV.MAIL_FROM,
     to: email,
@@ -40,7 +40,6 @@ async function sendResetEmail(email, token) {
       <a href="${link}">${link}</a>
     `,
   });
-};
-
+}
 
 export { sendVerificationEmail, sendResetEmail };
