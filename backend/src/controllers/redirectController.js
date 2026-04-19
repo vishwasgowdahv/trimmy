@@ -2,6 +2,8 @@ import { findUrlByShortCode } from "../models/urlModel.js";
 import { createClickEvent } from "../models/clickModel.js";
 import { incrementStats } from "../models/statsModel.js";
 import { ApiResponse } from "../utils/api-response.js";
+import geoip from "geoip-lite";
+import { UAParser } from "ua-parser-js";
 
 async function redirect(req, res) {
   try {
@@ -18,6 +20,14 @@ async function redirect(req, res) {
     // Detect device (basic)
     const userAgent = req.headers["user-agent"] || "";
     const deviceType = /mobile/i.test(userAgent) ? "mobile" : "desktop";
+    const ip =
+      req.socket.remoteAddress === "::1"
+        ? "137.226.141.25"
+        : req.socket.remoteAddress;
+    const geo = geoip.lookup(ip);
+    // console.log(req.socket.remoteAddress);
+
+    const ua = UAParser(req.headers["user-agent"]);
 
     // Log click
     await createClickEvent({
@@ -25,10 +35,10 @@ async function redirect(req, res) {
       ip: req.ip,
       userAgent,
       deviceType,
-      browser: "unknown",
-      os: "unknown",
-      country: "unknown",
-      city: "unknown",
+      browser: ua.browser.name,
+      os: ua.os.name,
+      country: geo.country,
+      city: geo.city,
       referrer: req.headers.referer || "",
     });
 
