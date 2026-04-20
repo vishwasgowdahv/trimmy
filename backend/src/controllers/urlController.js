@@ -8,7 +8,6 @@ async function createShortUrl(req, res) {
   try {
     const { originalUrl } = req.body;
     const userId = req.user.id;
-    console.log(userId);
     const shortCode = nanoid(7);
 
     const urlId = await createUrl(userId, shortCode, originalUrl);

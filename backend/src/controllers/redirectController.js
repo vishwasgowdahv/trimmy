@@ -20,13 +20,15 @@ async function redirect(req, res) {
     // Detect device (basic)
     const userAgent = req.headers["user-agent"] || "";
     const deviceType = /mobile/i.test(userAgent) ? "mobile" : "desktop";
+
+    // Detect location (country and city)
     const ip =
       req.socket.remoteAddress === "::1"
         ? "137.226.141.25"
         : req.socket.remoteAddress;
     const geo = geoip.lookup(ip);
-    // console.log(req.socket.remoteAddress);
 
+    // Detect browser and OS
     const ua = UAParser(req.headers["user-agent"]);
 
     // Log click
@@ -46,7 +48,7 @@ async function redirect(req, res) {
     await incrementStats(url.id, deviceType);
 
     // Redirect
-    res.redirect(url.original_url);
+    res.status(302).redirect(url.original_url);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
