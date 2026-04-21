@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import UrlCard from "@/components/components/UrlCard.jsx";
+import { useUrls } from "../hooks/useUrls";
+import { useAnalytics } from "../hooks/useAnalytics";
 
 const Home = () => {
+  const { urls, loading, error, createUrl, fetchUrls } = useUrls();
+  const {
+    analytics,
+    loading: analyticsLoading,
+    error: analyticsError,
+    fetchAnalytics,
+  } = useAnalytics();
+  useEffect(() => {
+    fetchUrls();
+    
+  }, []);
   return (
     <div className="w-full px-5 lg:px-50 flex flex-col gap-5 justify-center items-center">
       <div className="flex justify-center items-center flex-col mt-10 mb-10 gap-5 ">
@@ -31,16 +44,19 @@ const Home = () => {
         </h3>
       </div>
 
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
-      <UrlCard />
+      {urls.length > 0 ? (
+        urls.map((url) => (
+          <UrlCard
+            key={url.id}
+            created_at={url.created_at}
+            short_code={url.short_code}
+            original_url={url.original_url}
+            analytics={analytics}
+          />
+        ))
+      ) : (
+        <p>No shortened URLs found</p>
+      )}
     </div>
   );
 };

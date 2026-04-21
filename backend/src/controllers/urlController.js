@@ -1,7 +1,8 @@
 import { nanoid } from "nanoid";
-import { createUrl, getUrlsByUser } from "../models/urlModel.js";
+import { createUrl, getUrlsByUser, findUrlByShortCode } from "../models/urlModel.js";
 import { createUrlStats } from "../models/statsModel.js";
 import { ApiResponse } from "../utils/api-response.js";
+
 
 // Create short URL
 async function createShortUrl(req, res) {
@@ -44,4 +45,20 @@ async function getUserUrls(req, res) {
   }
 }
 
-export { createShortUrl, getUserUrls };
+
+// get url by short code
+async function getUrlByShortCode(req, res) {
+  try {
+    const { shortCode } = req.params;
+    const url = await findUrlByShortCode(shortCode);
+    res.status(200).json(
+      new ApiResponse(200, url, {
+        message: "URL fetched successfully",
+      }),
+    );
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+export { createShortUrl, getUserUrls, getUrlByShortCode };

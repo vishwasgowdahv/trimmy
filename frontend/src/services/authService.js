@@ -1,11 +1,11 @@
-import { authApi } from '../api/authApi';
+import { authApi } from "../api/authApi";
 
 export const authService = {
   login: async (email, password) => {
     const data = await authApi.login(email, password);
 
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
+    localStorage.setItem("accessToken", data.data.accessToken);
+    localStorage.setItem("refreshToken", data.data.refreshToken);
 
     return data;
   },
@@ -15,8 +15,8 @@ export const authService = {
   },
 
   logout: () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   },
 
   verifyEmail: async (token) => {
@@ -32,18 +32,18 @@ export const authService = {
   },
 
   refreshAccessToken: async () => {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = localStorage.getItem("refreshToken");
 
-    if (!refreshToken) throw new Error('No refresh token');
+    if (!refreshToken) throw new Error("No refresh token");
 
     const data = await authApi.refreshToken(refreshToken);
 
-    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem("accessToken", data.data.accessToken);
 
-    return data.accessToken;
+    return data.data.accessToken;
   },
 
-  getAccessToken: () => localStorage.getItem('accessToken'),
+  getAccessToken: () => localStorage.getItem("accessToken"),
 
-  isAuthenticated: () => !!localStorage.getItem('accessToken'),
+  isAuthenticated: () => !!localStorage.getItem("accessToken"),
 };

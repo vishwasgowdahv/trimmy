@@ -51,6 +51,15 @@ async function saveRefreshToken(userId, token, expires) {
   );
 }
 
+// Find user by refresh token
+async function findUserByRefreshToken(token) {
+  const [rows] = await pool.execute(
+    `SELECT * FROM users WHERE refresh_token = ? AND refresh_token_expires > NOW()`,
+    [token],
+  );
+  return rows[0];
+}
+
 // Set forgot password token
 async function setResetToken(userId, token, expires) {
   await pool.execute(
@@ -79,6 +88,7 @@ async function resetPassword(token, newPasswordHash) {
 export {
   createUser,
   findUserByEmail,
+  findUserByRefreshToken,
   verifyUserEmail,
   saveRefreshToken,
   setResetToken,

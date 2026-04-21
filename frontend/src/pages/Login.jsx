@@ -48,7 +48,9 @@ const Login = () => {
             Enter your email to login to your account
           </CardDescription>
           <CardAction>
-            <Button variant="link">Sign Up</Button>
+            <Link to="/signup" className="text-blue-500">
+              <Button variant="link">Sign Up</Button>
+            </Link>
           </CardAction>
         </CardHeader>
         <CardContent>

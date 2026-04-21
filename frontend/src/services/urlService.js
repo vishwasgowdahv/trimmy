@@ -1,21 +1,13 @@
 import { urlApi } from "../api/urlApi";
-import { authService } from "./authService";
 
 export const urlService = {
   createUrl: async (originalUrl) => {
-    const token = authService.getStoredToken();
-
-    const data = await urlApi.createUrl(originalUrl, token);
-
-    // business logic
+    const data = await urlApi.createUrl(originalUrl);
     return data;
   },
 
   getUserUrls: async () => {
-    const token = authService.getStoredToken();
-
-    const data = await urlApi.getUserUrls(token);
-
+    const data = await urlApi.getUserUrls();
     return data;
   },
 };

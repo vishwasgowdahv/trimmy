@@ -1,5 +1,5 @@
-import { createContext, useState } from 'react';
-import { urlService } from '../services/urlService';
+import { createContext, useState } from "react";
+import { urlService } from "../services/urlService";
 
 const UrlContext = createContext(null);
 
@@ -13,7 +13,8 @@ export function UrlProvider({ children }) {
     setError(null);
     try {
       const data = await urlService.getUserUrls();
-      setUrls(data);
+      console.log(data);
+      setUrls(data.data);
     } catch (err) {
       setError(err.message);
     } finally {

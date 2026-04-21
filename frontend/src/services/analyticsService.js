@@ -1,11 +1,8 @@
-import { analyticsApi } from '../api/analyticsApi';
-import { authService } from './authService';
+import { analyticsApi } from "../api/analyticsApi";
 
 export const analyticsService = {
   getAnalytics: async (urlId) => {
-    const token = authService.getStoredToken();
-
-    const data = await analyticsApi.getAnalytics(urlId, token);
+    const data = await analyticsApi.getAnalytics(urlId);
 
     return data;
   },

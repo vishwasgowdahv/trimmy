@@ -37,10 +37,10 @@ async function redirect(req, res) {
       ip: req.ip,
       userAgent,
       deviceType,
-      browser: ua.browser.name,
-      os: ua.os.name,
-      country: geo.country,
-      city: geo.city,
+      browser: ua.browser?.name || null,
+      os: ua.os?.name || null,
+      country: geo?.country || null,
+      city: geo?.city || null,
       referrer: req.headers.referer || "",
     });
 

@@ -5,6 +5,7 @@ import crypto from "crypto";
 import {
   createUser,
   findUserByEmail,
+  findUserByRefreshToken,
   verifyUserEmail,
   saveRefreshToken,
   setResetToken,
@@ -88,7 +89,7 @@ async function login(req, res) {
       .json(new ApiResponse(400, null, { message: "Invalid credentials" }));
 
   const accessToken = jwt.sign({ id: user.id }, ENV.JWT_SECRET, {
-    expiresIn: "15m",
+    expiresIn: "2d",
   });
 
   const refreshToken = jwt.sign({ id: user.id }, ENV.JWT_SECRET, {
@@ -145,4 +146,38 @@ async function resetPasswordController(req, res) {
     .json(new ApiResponse(200, null, { message: "Password reset successful" }));
 }
 
-export { signup, verifyEmail, login, forgotPassword, resetPasswordController };
+// REFRESH TOKEN
+async function refreshToken(req, res) {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res
+      .status(400)
+      .json(new ApiResponse(400, null, "Refresh token required"));
+  }
+
+  const user = await findUserByRefreshToken(refreshToken);
+
+  if (!user) {
+    return res
+      .status(401)
+      .json(new ApiResponse(401, null, "Invalid or expired refresh token"));
+  }
+
+  const accessToken = jwt.sign({ id: user.id }, ENV.JWT_SECRET, {
+    expiresIn: "15m",
+  });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, { accessToken }, "Token refreshed"));
+}
+
+export {
+  signup,
+  verifyEmail,
+  login,
+  forgotPassword,
+  resetPasswordController,
+  refreshToken,
+};

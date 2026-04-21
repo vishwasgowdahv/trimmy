@@ -7,27 +7,15 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     authService.isAuthenticated(),
   );
-  const [loading, setLoading] = useState(true);
+  const [initializing, setInitializing] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Initialize auth on app load
+  // Initialize auth on app load — just check if a token exists in localStorage.
+  // Token refresh happens lazily when an API call returns 401.
   useEffect(() => {
-    const init = async () => {
-      try {
-        if (authService.isAuthenticated()) {
-          // optionally refresh token here
-          await authService.refreshAccessToken();
-          setIsAuthenticated(true);
-        }
-      } catch {
-        authService.logout();
-        setIsAuthenticated(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    init();
+    setIsAuthenticated(authService.isAuthenticated());
+    setInitializing(false);
   }, []);
 
   const login = async (email, password) => {
@@ -66,6 +54,7 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        initializing,
         loading,
         error,
         login,
