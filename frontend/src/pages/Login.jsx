@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +16,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const Login = () => {
+  const { login, loading, error, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(form.email, form.password);
+  };
+
   return (
     <div className="flex justify-center items-center h-full flex-col my-20">
       <div className="flex justify-left items-center mx-10 my-5">
@@ -30,7 +52,7 @@ const Login = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -38,6 +60,8 @@ const Login = () => {
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
                 />
               </div>
@@ -51,14 +75,23 @@ const Login = () => {
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={form.password}
+                  onChange={(e) =>
+                    setForm({ ...form, password: e.target.value })
+                  }
+                />
               </div>
             </div>
           </form>
         </CardContent>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
-            Login
+          <Button type="submit" onClick={handleSubmit} className="w-full">
+            {loading ? "Logging in..." : "Login"}
           </Button>
           <Button variant="outline" className="w-full">
             Login with Google
