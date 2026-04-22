@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { createUrl, getUrlsByUser, findUrlByShortCode } from "../models/urlModel.js";
+import { createUrl, getUrlsByUser, findUrlByShortCode, deleteUrl } from "../models/urlModel.js";
 import { createUrlStats } from "../models/statsModel.js";
 import { ApiResponse } from "../utils/api-response.js";
 
@@ -61,4 +61,22 @@ async function getUrlByShortCode(req, res) {
   }
 }
 
-export { createShortUrl, getUserUrls, getUrlByShortCode };
+// Delete URL
+async function deleteUrlController(req, res) {
+  try {
+    const { urlId } = req.params;
+    const userId = req.user.id;
+
+    await deleteUrl(urlId, userId);
+
+    res.status(200).json(
+      new ApiResponse(200, null, {
+        message: "URL deleted successfully",
+      }),
+    );
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+export { createShortUrl, getUserUrls, getUrlByShortCode, deleteUrlController };

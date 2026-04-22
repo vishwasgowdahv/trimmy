@@ -16,7 +16,7 @@ const Home = () => {
     fetchUrls();
   }, [urls?.length]);
   return (
-    <div className="w-full px-5 lg:px-50 flex flex-col gap-5 justify-center items-center">
+    <div className="w-full px-5 lg:px-50 flex flex-col gap-5 justify-center items-center ">
       <UrlShorten />
       <div className="flex justify-center items-left flex-col mt-20 mb-10 gap-5 ">
         <h1 className="text-4xl text-left font-bold">Your Shortened URLs</h1>
@@ -25,19 +25,22 @@ const Home = () => {
         </h3>
       </div>
 
-      {urls?.length > 0 ? (
-        urls?.map((url) => (
-          <UrlCard
-            key={url?.id}
-            created_at={url?.created_at}
-            short_code={url?.short_code}
-            original_url={url?.original_url}
-            analytics={analytics}
-          />
-        ))
-      ) : (
-        <p>No shortened URLs found</p>
-      )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {urls?.length > 0 ? (
+          urls?.map((url) => (
+            <UrlCard
+              key={url?.id}
+              urlData={url}
+              created_at={url?.created_at}
+              short_code={url?.short_code}
+              original_url={url?.original_url}
+              analytics={analytics}
+            />
+          ))
+        ) : (
+          <p>No shortened URLs found</p>
+        )}
+      </div>
     </div>
   );
 };

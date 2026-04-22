@@ -34,8 +34,21 @@ export function UrlProvider({ children }) {
     }
   };
 
+  const deleteUrl = async (urlId) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await urlService.deleteUrl(urlId);
+      setUrls((prev) => prev.filter((url) => url.id !== urlId));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <UrlContext.Provider value={{ urls, loading, error, fetchUrls, createUrl }}>
+    <UrlContext.Provider value={{ urls, loading, error, fetchUrls, createUrl, deleteUrl }}>
       {children}
     </UrlContext.Provider>
   );

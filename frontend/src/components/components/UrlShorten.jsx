@@ -28,7 +28,10 @@ const UrlShorten = () => {
         />
         {error && <p className="text-red-500">{error}</p>}
         <Button
-          onClick={() => createUrl(url)}
+          onClick={() => {
+            createUrl(url);
+            setUrl("");
+          }}
           disabled={loading}
           className="h-12"
         >

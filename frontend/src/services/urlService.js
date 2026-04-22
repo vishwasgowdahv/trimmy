@@ -10,4 +10,9 @@ export const urlService = {
     const data = await urlApi.getUserUrls();
     return data;
   },
+
+  deleteUrl: async (urlId) => {
+    const data = await urlApi.deleteUrl(urlId);
+    return data;
+  },
 };
