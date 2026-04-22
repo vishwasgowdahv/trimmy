@@ -8,8 +8,9 @@ const UrlCard = ({ short_code, original_url, created_at }) => {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const date = new Date(created_at);
-  const formattedDate = format(date, "MMM dd, yyyy");
+  const date = created_at ? new Date(created_at) : null;
+  const formattedDate =
+    date && !isNaN(date.getTime()) ? format(date, "MMM dd, yyyy") : "N/A";
 
   useEffect(() => {
     const getStats = async () => {

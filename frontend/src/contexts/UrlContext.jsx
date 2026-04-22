@@ -13,7 +13,6 @@ export function UrlProvider({ children }) {
     setError(null);
     try {
       const data = await urlService.getUserUrls();
-      console.log(data);
       setUrls(data.data);
     } catch (err) {
       setError(err.message);
