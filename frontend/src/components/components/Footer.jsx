@@ -8,80 +8,23 @@ const Footer = () => {
   return (
     <footer className="mt-30 border-t border-border bg-background">
       <div className="mx-auto max-w-6xl px-6 py-12">
-
         {/* Top row */}
         <div className="flex flex-col gap-10 md:flex-row md:justify-between">
-
           {/* Brand */}
           <div className="flex flex-col gap-3 max-w-xs">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-                <Link2Icon className="h-4 w-4 text-background" />
-              </div>
               <span className="text-lg font-semibold tracking-tight text-foreground">
                 Trimmy
               </span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Transform long URLs into clean, trackable links. Simple, fast, and reliable.
+              Transform long URLs into clean, trackable links. Simple, fast, and
+              reliable.
             </p>
           </div>
 
-          {/* Links */}
-          <div className="flex gap-16 flex-wrap">
-            <div className="flex flex-col gap-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Product
-              </p>
-              <ul className="flex flex-col gap-2.5">
-                {["Features", "Analytics", "Pricing"].map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Company
-              </p>
-              <ul className="flex flex-col gap-2.5">
-                {["About", "Blog", "Contact"].map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Legal
-              </p>
-              <ul className="flex flex-col gap-2.5">
-                {["Privacy", "Terms"].map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div>
+            <img className="w-30 h-25" src="/src/assets/link.png" alt="" />
           </div>
         </div>
 
@@ -96,7 +39,7 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             {/* GitHub */}
             <a
-              href="https://github.com"
+              href="https://github.com/vishwasgowdahv/trimmy"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
@@ -120,7 +63,6 @@ const Footer = () => {
             </a>
           </div>
         </div>
-
       </div>
     </footer>
   );

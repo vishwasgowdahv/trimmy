@@ -70,12 +70,12 @@ const Login = () => {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
+                  {/* <a
                     href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </a> */}
                 </div>
                 <Input
                   id="password"
@@ -90,13 +90,12 @@ const Login = () => {
             </div>
           </form>
         </CardContent>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm text-center font-bold">{error}</p>
+        )}
         <CardFooter className="flex-col gap-2">
           <Button type="submit" onClick={handleSubmit} className="w-full">
             {loading ? "Logging in..." : "Login"}
-          </Button>
-          <Button variant="outline" className="w-full">
-            Login with Google
           </Button>
         </CardFooter>
       </Card>

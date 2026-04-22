@@ -31,7 +31,9 @@ const Signup = () => {
 
     try {
       await register(form);
-      setSuccess("Signup successful! Check your email.");
+      if (!error) {
+        setSuccess("Signup successful! Check your email.");
+      }
     } catch (err) {
       // handled in context
     }
@@ -97,17 +99,17 @@ const Signup = () => {
           </form>
         </CardContent>
         {/* Error */}
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-
-        {/* Success */}
-        {success && <p className="text-green-600 text-sm">{success}</p>}
+        {error ? (
+          <p className="text-red-500 text-sm text-center font-bold">{error}</p>
+        ) : (
+          <p className="text-green-600 text-sm text-center font-bold">
+            {success}
+          </p>
+        )}
 
         <CardFooter className="flex-col gap-2">
           <Button type="submit" onClick={handleSubmit} className="w-full">
             {loading ? "Creating account..." : "Signup"}
-          </Button>
-          <Button variant="outline" className="w-full">
-            Signup with Google
           </Button>
         </CardFooter>
       </Card>

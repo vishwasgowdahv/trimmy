@@ -9,7 +9,7 @@ const UrlShorten = () => {
   const [url, setUrl] = useState("");
   return (
     <>
-      <div className="flex justify-center items-center flex-col mt-10 mb-10 gap-5 ">
+      <div className="flex justify-center items-center flex-col mt-0 mb-10 gap-5 ">
         <h1 className="text-5xl text-center font-bold">Shorten Your URLs</h1>
         <h3 className="text-lg text-center font-light">
           Transform long URLs into clean, shareable links in seconds

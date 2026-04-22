@@ -10,6 +10,7 @@ import {
   saveRefreshToken,
   setResetToken,
   resetPassword,
+  findUserById,
 } from "../models/userModel.js";
 
 import {
@@ -25,6 +26,12 @@ async function signup(req, res) {
   try {
     const { name, email, password } = req.body;
 
+    if (!name || !email || !password) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, null, "All fields are required"));
+    }
+
     const existing = await findUserByEmail(email);
     if (existing) {
       return res.status(400).json(new ApiResponse(400, null, "User exists"));
@@ -39,11 +46,11 @@ async function signup(req, res) {
 
     await sendVerificationEmail(email, token);
 
-    res.status(201).json(
-      new ApiResponse(201, userId, {
-        message: "Signup successful. Verify your email.",
-      }),
-    );
+    res
+      .status(201)
+      .json(
+        new ApiResponse(201, userId, "Signup successful. Verify your email."),
+      );
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
@@ -74,19 +81,19 @@ async function login(req, res) {
   if (!user)
     return res
       .status(400)
-      .json(new ApiResponse(400, null, { message: "Invalid credentials" }));
+      .json(new ApiResponse(400, null, "Invalid credentials"));
 
   if (!user.is_email_verified) {
     return res
       .status(403)
-      .json(new ApiResponse(403, null, { message: "Verify email first" }));
+      .json(new ApiResponse(403, null, "Verify email first"));
   }
 
   const match = await bcrypt.compare(password, user.password_hash);
   if (!match)
     return res
       .status(400)
-      .json(new ApiResponse(400, null, { message: "Invalid credentials" }));
+      .json(new ApiResponse(400, null, "Invalid credentials"));
 
   const accessToken = jwt.sign({ id: user.id }, ENV.JWT_SECRET, {
     expiresIn: "2d",
@@ -138,12 +145,10 @@ async function resetPasswordController(req, res) {
   if (!success) {
     return res
       .status(400)
-      .json(new ApiResponse(400, null, { message: "Invalid/expired token" }));
+      .json(new ApiResponse(400, null, "Invalid/expired token"));
   }
 
-  res
-    .status(200)
-    .json(new ApiResponse(200, null, { message: "Password reset successful" }));
+  res.status(200).json(new ApiResponse(200, null, "Password reset successful"));
 }
 
 // REFRESH TOKEN
@@ -173,6 +178,16 @@ async function refreshToken(req, res) {
     .json(new ApiResponse(200, { accessToken }, "Token refreshed"));
 }
 
+// GET USER
+async function getUser(req, res) {
+  const user = await findUserById(req.user.id);
+  if (!user) {
+    return res.status(404).json(new ApiResponse(404, null, "User not found"));
+  }
+
+  res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
+}
+
 export {
   signup,
   verifyEmail,
@@ -180,4 +195,5 @@ export {
   forgotPassword,
   resetPasswordController,
   refreshToken,
+  getUser,
 };

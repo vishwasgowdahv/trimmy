@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     authService.isAuthenticated(),
   );
+  const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -45,6 +46,21 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const getUser = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await authService.getUser();
+      setUser(data.data);
+      return data;
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = () => {
     authService.logout();
     setIsAuthenticated(false);
@@ -60,6 +76,8 @@ export function AuthProvider({ children }) {
         login,
         register,
         logout,
+        getUser,
+        user,
       }}
     >
       {children}

@@ -6,7 +6,10 @@ import {
   forgotPassword,
   resetPasswordController,
   refreshToken,
+  getUser,
 } from "../controllers/authController.js";
+
+import { authenticate } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -27,5 +30,8 @@ router.route("/reset-password").post(resetPasswordController);
 
 // POST /api/v1/auth/refresh
 router.route("/refresh").post(refreshToken);
+
+// GET /api/v1/auth/me
+router.route("/me").get(authenticate, getUser);
 
 export default router;

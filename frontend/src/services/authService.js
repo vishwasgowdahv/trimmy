@@ -14,6 +14,10 @@ export const authService = {
     return await authApi.register(userData);
   },
 
+  getUser: async () => {
+    return await authApi.getUser();
+  },
+
   logout: () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");

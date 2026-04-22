@@ -1,8 +1,12 @@
 import { nanoid } from "nanoid";
-import { createUrl, getUrlsByUser, findUrlByShortCode, deleteUrl } from "../models/urlModel.js";
+import {
+  createUrl,
+  getUrlsByUser,
+  findUrlByShortCode,
+  deleteUrl,
+} from "../models/urlModel.js";
 import { createUrlStats } from "../models/statsModel.js";
 import { ApiResponse } from "../utils/api-response.js";
-
 
 // Create short URL
 async function createShortUrl(req, res) {
@@ -44,7 +48,6 @@ async function getUserUrls(req, res) {
     res.status(500).json({ message: "Server error" });
   }
 }
-
 
 // get url by short code
 async function getUrlByShortCode(req, res) {

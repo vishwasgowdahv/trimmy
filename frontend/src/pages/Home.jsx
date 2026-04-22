@@ -3,44 +3,53 @@ import UrlCard from "@/components/components/UrlCard.jsx";
 import { useUrls } from "../hooks/useUrls";
 import { useAnalytics } from "../hooks/useAnalytics";
 import UrlShorten from "@/components/components/UrlShorten.jsx";
+import { useAuth } from "../hooks/useAuth";
 
 const Home = () => {
   const { urls, loading, error, createUrl, fetchUrls } = useUrls();
+  const { getUser, user } = useAuth();
   const {
     analytics,
     loading: analyticsLoading,
     error: analyticsError,
     fetchAnalytics,
   } = useAnalytics();
+
   useEffect(() => {
+    getUser();
     fetchUrls();
   }, [urls?.length]);
   return (
     <div className="w-full px-5 lg:px-50 flex flex-col gap-5 justify-center items-center ">
+      <h1 className="text-5xl text-left font-bold pt-10">Welcome, <span className="text-blue-500">{user?.name}</span></h1>
       <UrlShorten />
-      <div className="flex justify-center items-left flex-col mt-20 mb-10 gap-5 ">
-        <h1 className="text-4xl text-left font-bold">Your Shortened URLs</h1>
-        <h3 className="text-lg text-left font-light">
-          Manage and track all your shortened links
-        </h3>
-      </div>
+      {urls?.length > 0 ? (
+        <>
+          <div className="flex justify-center items-left flex-col mt-10 mb-10 gap-5 ">
+            <h1 className="text-4xl text-left font-bold">
+              Your Shortened URLs
+            </h1>
+            <h3 className="text-lg text-left font-light">
+              Manage and track all your shortened links
+            </h3>
+          </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {urls?.length > 0 ? (
-          urls?.map((url) => (
-            <UrlCard
-              key={url?.id}
-              urlData={url}
-              created_at={url?.created_at}
-              short_code={url?.short_code}
-              original_url={url?.original_url}
-              analytics={analytics}
-            />
-          ))
-        ) : (
-          <p>No shortened URLs found</p>
-        )}
-      </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {urls?.map((url) => (
+              <UrlCard
+                key={url?.id}
+                urlData={url}
+                created_at={url?.created_at}
+                short_code={url?.short_code}
+                original_url={url?.original_url}
+                analytics={analytics}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <p className="text-lg text-left font-light">No shortened URLs found</p>
+      )}
     </div>
   );
 };

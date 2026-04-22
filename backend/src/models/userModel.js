@@ -26,6 +26,12 @@ async function findUserByEmail(email) {
   return rows[0];
 }
 
+// Find user by ID
+async function findUserById(id) {
+  const [rows] = await pool.execute(`SELECT * FROM users WHERE id = ?`, [id]);
+  return rows[0];
+}
+
 // Verify email
 async function verifyUserEmail(token) {
   const [result] = await pool.execute(
@@ -93,4 +99,5 @@ export {
   saveRefreshToken,
   setResetToken,
   resetPassword,
+  findUserById,
 };
