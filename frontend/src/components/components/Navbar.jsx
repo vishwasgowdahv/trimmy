@@ -25,14 +25,14 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center px-10 py-5">
       <Link to="/" className="flex justify-left items-center lg:mx-10 mx-1">
-        <img className="w-10 h-10" src="/src/assets/link.png" alt="" />
+        <img className="w-10 h-10" src="/assets/link.png" alt="" />
         <h1 className="text-3xl font-bold mx-2">Trimmy</h1>
       </Link>
 
       {isAuthenticated ? (
         <DropdownMenu>
           <DropdownMenuTrigger className="h-10 my-auto border border-black font-semibold rounded-full p-2 outline-none">
-            <img className="w-5 h-5" src="/src/assets/user.png" alt="" />
+            <img className="w-5 h-5" src="/assets/user.png" alt="" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>

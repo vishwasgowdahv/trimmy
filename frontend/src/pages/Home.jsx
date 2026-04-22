@@ -5,7 +5,6 @@ import { useAnalytics } from "../hooks/useAnalytics";
 import UrlShorten from "@/components/components/UrlShorten.jsx";
 import { useAuth } from "../hooks/useAuth";
 
-
 const Home = () => {
   const { urls, loading, error, createUrl, fetchUrls } = useUrls();
   const { getUser, user } = useAuth();
@@ -50,8 +49,10 @@ const Home = () => {
             ))}
           </div>
         </>
+      ) : loading ? (
+        <p className="text-2xl text-center font-bold">Your URLs are loading..., Please wait</p>
       ) : (
-        <p className="text-lg text-left font-light">No shortened URLs found</p>
+        <p className="text-gray-500 text-2xl text-center font-bold">No shortened URLs found!!</p>
       )}
     </div>
   );

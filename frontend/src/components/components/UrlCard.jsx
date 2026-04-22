@@ -114,9 +114,9 @@ const UrlCard = ({ urlData }) => {
                 className=" bg-gray-100 rounded-lg p-2 w-9 h-9"
               >
                 {copied ? (
-                  <img src="/src/assets/check.png" alt="" />
+                  <img src="/assets/check.png" alt="" />
                 ) : (
-                  <img src="/src/assets/copy.png" alt="" />
+                  <img src="/assets/copy.png" alt="" />
                 )}
               </button>
             </div>
@@ -133,7 +133,7 @@ const UrlCard = ({ urlData }) => {
         </div>
         <div className="flex gap-2 flex-row lg:flex-col">
           <button className="border rounded-lg p-2 w-10 h-10">
-            <img src="/src/assets/analysis.png" alt="" />
+            <img src="/assets/analysis.png" alt="" />
           </button>
           <button
             onClick={() => {
@@ -150,7 +150,7 @@ const UrlCard = ({ urlData }) => {
             }}
             className="border rounded-lg p-2 w-10 h-10"
           >
-            <img src="/src/assets/delete.png" alt="" />
+            <img src="/assets/delete.png" alt="" />
           </button>
         </div>
       </div>

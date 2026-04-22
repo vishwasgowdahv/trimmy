@@ -41,7 +41,7 @@ const Signup = () => {
   return (
     <div className="flex justify-center items-center h-full flex-col my-20">
       <div className="flex justify-left items-center mx-10 my-5">
-        <img className="w-10 h-10" src="/src/assets/link.png" alt="" />
+        <img className="w-10 h-10" src="/assets/link.png" alt="" />
         <h1 className="text-3xl font-bold mx-2 my-5 ">Signup</h1>
       </div>
       <Card className="w-full max-w-sm">
