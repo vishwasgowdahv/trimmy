@@ -5,6 +5,8 @@ import { useUrls } from "../../hooks/useUrls";
 import QRCodeComponent from "./QrCodeComponent.jsx";
 import Modal from "./Modal.jsx";
 
+const MAIN_URL = import.meta.env.VITE_MAIN_URL;
+
 const UrlCard = ({ urlData }) => {
   const [open, setOpen] = useState(false);
   const { deleteUrl } = useUrls();
@@ -81,16 +83,16 @@ const UrlCard = ({ urlData }) => {
                 onConfirm: () =>
                   setModalOptions({ ...ModalOptions, isOpen: false }),
                 title: "QR Code",
-                description: `http://localhost:8000/${urlData.short_code}`,
+                description: `${MAIN_URL}/${urlData.short_code}`,
                 confirmText: "Download",
                 type: "info",
-                data: `http://localhost:8000/${urlData.short_code}`,
+                data: `${MAIN_URL}/${urlData.short_code}`,
               })
             }
             className="hidden lg:block cursor-pointer"
           >
             <QRCodeComponent
-              url={`http://localhost:8000/${urlData.short_code}`}
+              url={`${MAIN_URL}/${urlData.short_code}`}
             />
           </div>
           <div>
@@ -98,7 +100,7 @@ const UrlCard = ({ urlData }) => {
               <input
                 className="bg-gray-100 inline-block rounded-lg p-2 text-md"
                 ref={copyRef}
-                value={`http://localhost:8000/${urlData.short_code}`}
+                value={`${MAIN_URL}/${urlData.short_code}`}
                 readOnly
               />
               <button

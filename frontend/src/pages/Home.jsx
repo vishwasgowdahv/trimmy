@@ -5,6 +5,7 @@ import { useAnalytics } from "../hooks/useAnalytics";
 import UrlShorten from "@/components/components/UrlShorten.jsx";
 import { useAuth } from "../hooks/useAuth";
 
+
 const Home = () => {
   const { urls, loading, error, createUrl, fetchUrls } = useUrls();
   const { getUser, user } = useAuth();
@@ -21,7 +22,9 @@ const Home = () => {
   }, [urls?.length]);
   return (
     <div className="w-full px-5 lg:px-50 flex flex-col gap-5 justify-center items-center ">
-      <h1 className="text-5xl text-left font-bold pt-10">Welcome, <span className="text-blue-500">{user?.name}</span></h1>
+      <h1 className="text-5xl text-left font-bold pt-10">
+        Welcome, <span className="text-blue-500">{user?.name}</span>
+      </h1>
       <UrlShorten />
       {urls?.length > 0 ? (
         <>
