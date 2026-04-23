@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { apiLimiter } from "./middlewares/rateLimiter.js";
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.use(
   }),
 );
 
+app.set("trust proxy", 1);
+
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
@@ -23,10 +26,10 @@ import urlRoutes from "./routes/urlRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import redirectRoutes from "./routes/redirectRoutes.js";
 
-app.use("/api/v1/healthcheck", healthcheckRoute);
-app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/urls", urlRoutes);
-app.use("/api/v1/analytics", analyticsRoutes);
+app.use("/api/v1/healthcheck", apiLimiter, healthcheckRoute);
+app.use("/api/v1/auth", apiLimiter, authRoute);
+app.use("/api/v1/urls", apiLimiter, urlRoutes);
+app.use("/api/v1/analytics", apiLimiter, analyticsRoutes);
 
 // Public redirect route (must be last)
 app.use("/", redirectRoutes);

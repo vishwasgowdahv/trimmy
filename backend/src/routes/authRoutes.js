@@ -8,25 +8,26 @@ import {
   refreshToken,
   getUser,
 } from "../controllers/authController.js";
+import { authLimiter } from "../middlewares/rateLimiter.js";
 
 import { authenticate } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 // POST /api/v1/auth/signup
-router.route("/signup").post(signup);
+router.route("/signup").post(authLimiter, signup);
 
 // POST /api/v1/auth/login
-router.route("/login").post(login);
+router.route("/login").post(authLimiter, login);
 
 // POST /api/v1/auth/verify-email
-router.route("/verify-email").get(verifyEmail);
+router.route("/verify-email").get(authLimiter, verifyEmail);
 
 // POST /api/v1/auth/forgot-password
-router.route("/forgot-password").post(forgotPassword);
+router.route("/forgot-password").post(authLimiter, forgotPassword);
 
 // POST /api/v1/auth/reset-password
-router.route("/reset-password").post(resetPasswordController);
+router.route("/reset-password").post(authLimiter, resetPasswordController);
 
 // POST /api/v1/auth/refresh
 router.route("/refresh").post(refreshToken);
