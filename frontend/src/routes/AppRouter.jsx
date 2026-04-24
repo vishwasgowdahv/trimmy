@@ -18,7 +18,14 @@ export default function AppRouter() {
         {/* MAIN LAYOUT — all pages nested here get Navbar + Footer */}
         <Route element={<MainLayout />}>
           {/* Public */}
-          <Route path="/" element={<Landing />} />
+          <Route
+            path="/"
+            element={
+              <PublicRoute>
+                <Landing />
+              </PublicRoute>
+            }
+          />
 
           <Route
             path="/login"
