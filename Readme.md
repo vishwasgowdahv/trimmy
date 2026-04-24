@@ -1,4 +1,4 @@
-# 🚀 Trimmy – Intelligent URL Shortener Platform
+# 🔗 Trimmy - URL Shortener Platform
 
 Trimmy is a full-stack URL shortening platform designed with production-grade architecture, offering secure authentication, advanced analytics, and scalable backend services.
 
@@ -6,8 +6,8 @@ Trimmy is a full-stack URL shortening platform designed with production-grade ar
 
 ## 🌐 Live Demo
 
-- Frontend: https://your-frontend-url.com
-- Backend API: https://your-backend-url.com
+- Frontend: https://trimmy.vishwasgowda.com
+- Backend API: https://trimmy.onrender.com
 
 ---
 
@@ -24,8 +24,8 @@ Trimmy is a full-stack URL shortening platform designed with production-grade ar
 ### 🔗 URL Shortening
 
 - Generate short URLs from long links
-- Unique short code generation
 - QR code support for each URL
+- Unique short code generation
 
 ### 📊 Analytics
 
@@ -43,6 +43,7 @@ Trimmy is a full-stack URL shortening platform designed with production-grade ar
 ### ⚙️ System Design
 
 - Modular backend architecture
+- Rate limiting for API requests
 - Separation of concerns (controllers, models, services)
 - Optimized MySQL schema with indexing
 - Scalable analytics design using event + aggregated tables
@@ -61,7 +62,9 @@ Trimmy is a full-stack URL shortening platform designed with production-grade ar
 
 ### Frontend
 
-- React.js (planned / implemented)
+- React.js
+- Tailwind CSS
+- React Router DOM
 
 ### DevOps & Tools
 
@@ -162,10 +165,8 @@ Swagger docs available at:
 
 ## 📦 Future Enhancements
 
-- Custom domain support
 - Link expiration
 - Password-protected URLs
-- Rate limiting
 - Redis caching
 - Background jobs (email queue)
 
@@ -181,10 +182,10 @@ Swagger docs available at:
 
 ## 🧑‍💻 Author
 
-**Your Name**
+**Vishwasgowdahv**
 
-- GitHub: https://github.com/yourusername
-- LinkedIn: https://linkedin.com/in/yourprofile
+- GitHub: https://github.com/vishwasgowdahv
+- LinkedIn: https://linkedin.com/in/vishwasgowdahv
 
 ---
 
