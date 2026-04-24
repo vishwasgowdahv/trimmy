@@ -22,11 +22,12 @@ const UrlCard = ({ urlData }) => {
   const { deleteUrl } = useUrls();
   const [copied, setCopied] = useState(false);
   const copyRef = useRef(null);
+  const qrRef = useRef(null);
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [ModalOptions, setModalOptions] = useState({
     isOpen: false,
-    onClose: () => setModalOptions(false),
+    onClose: () => setModalOptions((prev) => ({ ...prev, isOpen: false })),
     onConfirm: () => {},
     title: "",
     description: "",
@@ -37,7 +38,23 @@ const UrlCard = ({ urlData }) => {
 
   const handleDelete = () => {
     deleteUrl(urlData.id);
-    setModalOptions({ ...ModalOptions, isOpen: false });
+    setModalOptions((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  const downloadQRCode = () => {
+    const canvas = qrRef.current?.querySelector("canvas");
+    if (!canvas) {
+      console.error("Canvas not found");
+      return;
+    }
+
+    const image = canvas.toDataURL("image/png");
+    const anchor = document.createElement("a");
+    anchor.href = image;
+    anchor.download = `qr-${urlData.short_code}.png`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
   };
 
   const date = urlData.created_at ? new Date(urlData.created_at) : null;
@@ -48,15 +65,13 @@ const UrlCard = ({ urlData }) => {
     const getStats = async () => {
       try {
         setLoading(true);
-        const response = await analyticsService.getAnalytics(
-          urlData.short_code,
-        );
+        const response = await analyticsService.getAnalytics(urlData.short_code);
         setAnalytics(response.data);
       } catch (error) {
         console.error(
           "Failed to fetch analytics for",
           urlData.short_code,
-          error,
+          error
         );
       } finally {
         setLoading(false);
@@ -70,6 +85,19 @@ const UrlCard = ({ urlData }) => {
 
   const shortUrl = `${MAIN_URL}/${urlData.short_code}`;
 
+  const openQrModal = () => {
+    setModalOptions({
+      isOpen: true,
+      onClose: () => setModalOptions((prev) => ({ ...prev, isOpen: false })),
+      onConfirm: downloadQRCode,
+      title: "QR Code",
+      description: shortUrl,
+      confirmText: "Download PNG",
+      type: "info",
+      data: shortUrl, // Still pass data to show QR in Modal
+    });
+  };
+
   return (
     <>
       <Modal
@@ -81,25 +109,19 @@ const UrlCard = ({ urlData }) => {
         confirmText={ModalOptions.confirmText}
         type={ModalOptions.type}
         data={ModalOptions.data}
-      />
+      >
+        {/* We use a ref here to capture the QR code in the modal for downloading */}
+        {ModalOptions.title === "QR Code" && (
+          <div ref={qrRef} className="hidden">
+            <QRCodeComponent url={shortUrl} size={500} />
+          </div>
+        )}
+      </Modal>
 
       <div className="group bg-white border border-gray-100 rounded-2xl p-4 md:p-6 transition-all hover:shadow-md hover:border-blue-100 flex flex-col sm:flex-row gap-4 md:gap-5 items-start w-full overflow-hidden">
         {/* Left: QR Code (Desktop only) */}
         <div
-          onClick={() =>
-            setModalOptions({
-              isOpen: true,
-              onClose: () =>
-                setModalOptions({ ...ModalOptions, isOpen: false }),
-              onConfirm: () =>
-                setModalOptions({ ...ModalOptions, isOpen: false }),
-              title: "QR Code",
-              description: shortUrl,
-              confirmText: "Download",
-              type: "info",
-              data: shortUrl,
-            })
-          }
+          onClick={openQrModal}
           className="hidden md:flex shrink-0 cursor-pointer bg-gray-50 p-3 rounded-xl hover:bg-blue-50 transition-colors border border-transparent hover:border-blue-100"
         >
           <QRCodeComponent url={shortUrl} size={80} />
@@ -186,7 +208,7 @@ const UrlCard = ({ urlData }) => {
                 setModalOptions({
                   isOpen: true,
                   onClose: () =>
-                    setModalOptions({ ...ModalOptions, isOpen: false }),
+                    setModalOptions((prev) => ({ ...prev, isOpen: false })),
                   onConfirm: handleDelete,
                   title: "Delete URL",
                   description:
@@ -205,19 +227,7 @@ const UrlCard = ({ urlData }) => {
             </button>
 
             <button
-              onClick={() =>
-                setModalOptions({
-                  isOpen: true,
-                  onClose: () =>
-                    setModalOptions({ ...ModalOptions, isOpen: false }),
-                  onConfirm: () => {},
-                  title: "QR Code",
-                  description: shortUrl,
-                  confirmText: "Download",
-                  type: "info",
-                  data: shortUrl,
-                })
-              }
+              onClick={openQrModal}
               className="md:hidden grow p-2 md:p-2.5 rounded-xl border border-gray-200 text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-2 bg-white"
             >
               <QrCode size={18} />
