@@ -12,6 +12,9 @@ import {
   Bell,
   Lock,
   LogOut,
+  Award,
+  Star,
+  Zap
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -29,7 +32,15 @@ const Profile = () => {
   const joinedDate = user?.created_at ? new Date(user.created_at) : new Date();
   const formattedJoinedDate = format(joinedDate, "MMMM dd, yyyy");
 
-  const totalClicks = urls.reduce((acc, url) => acc + (url.clicks || 0), 0);
+  // Logic for Link Level Badge
+  const getLevel = (count) => {
+    if (count >= 21) return { name: "Link Master", color: "bg-amber-50 text-amber-600 border-amber-200", icon: Zap };
+    if (count >= 6) return { name: "Power User", color: "bg-purple-50 text-purple-600 border-purple-200", icon: Award };
+    return { name: "Starter", color: "bg-blue-50 text-blue-600 border-blue-200", icon: Star };
+  };
+
+  const level = getLevel(urls?.length || 0);
+  const LevelIcon = level.icon;
 
   return (
     <div className="min-h-screen bg-gray-50/50 py-12">
@@ -80,16 +91,14 @@ const Profile = () => {
                     {urls?.length}
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-indigo-50 rounded-2xl">
+                
+                {/* New Feature: Link Level Badge */}
+                <div className={`flex flex-col gap-2 p-3 rounded-2xl border ${level.color} transition-all duration-500`}>
                   <div className="flex items-center gap-3">
-                    <MousePointerClick size={20} className="text-indigo-600" />
-                    <span className="font-bold text-indigo-900">
-                      Total Clicks
-                    </span>
+                    <LevelIcon size={20} />
+                    <span className="font-bold text-sm uppercase tracking-tight">Current Status</span>
                   </div>
-                  <span className="text-xl font-black text-indigo-600">
-                    {totalClicks}
-                  </span>
+                  <p className="text-lg font-black">{level.name}</p>
                 </div>
               </div>
             </div>

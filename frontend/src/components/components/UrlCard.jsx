@@ -14,6 +14,7 @@ import {
   ExternalLink,
   MousePointerClick,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const MAIN_URL = import.meta.env.VITE_MAIN_URL;
 
@@ -191,15 +192,17 @@ const UrlCard = ({ urlData }) => {
               </span>
             </button>
 
-            <button
-              className="grow sm:grow-0 p-2 md:p-2.5 rounded-xl border border-gray-200 text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-2 bg-white"
-              title="View Analytics"
-            >
-              <BarChart3 size={18} />
-              <span className="sm:hidden text-xs md:text-sm font-semibold">
-                Stats
-              </span>
-            </button>
+            <Link to={`/analytics/${urlData.short_code}`} className="grow sm:grow-0">
+              <button
+                className="w-full p-2 md:p-2.5 rounded-xl border border-gray-200 text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-2 bg-white"
+                title="View Analytics"
+              >
+                <BarChart3 size={18} />
+                <span className="sm:hidden text-xs md:text-sm font-semibold">
+                  Stats
+                </span>
+              </button>
+            </Link>
           </div>
 
           <div className="flex grow sm:grow-0 gap-2">

@@ -9,6 +9,7 @@ import Signup from "../pages/Signup.jsx";
 import Home from "../pages/Home.jsx";
 import Landing from "../pages/Landing.jsx";
 import Profile from "../pages/Profile.jsx";
+import Analytics from "../pages/Analytics.jsx";
 
 import MainLayout from "../layouts/MainLayout.jsx";
 
@@ -61,6 +62,15 @@ export default function AppRouter() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/analytics/:shortCode"
+            element={
+              <ProtectedRoute>
+                <Analytics />
               </ProtectedRoute>
             }
           />
