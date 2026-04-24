@@ -8,6 +8,7 @@ import Login from "../pages/Login.jsx";
 import Signup from "../pages/Signup.jsx";
 import Home from "../pages/Home.jsx";
 import Landing from "../pages/Landing.jsx";
+import Profile from "../pages/Profile.jsx";
 
 import MainLayout from "../layouts/MainLayout.jsx";
 
@@ -51,6 +52,15 @@ export default function AppRouter() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />

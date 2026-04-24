@@ -5,7 +5,8 @@ import {
   LogOutIcon,
   SettingsIcon,
   UserIcon,
-  ChevronDown
+  ChevronDown,
+  HomeIcon
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -62,14 +63,18 @@ const Navbar = () => {
                     </DropdownMenuLabel>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator className="bg-gray-50" />
-                  <DropdownMenuItem className="cursor-pointer rounded-xl py-2.5 px-3 focus:bg-blue-50 focus:text-blue-600 transition-colors">
-                    <UserIcon className="w-4 h-4 mr-2" />
-                    <span className="font-semibold">Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer rounded-xl py-2.5 px-3 focus:bg-blue-50 focus:text-blue-600 transition-colors">
-                    <SettingsIcon className="w-4 h-4 mr-2" />
-                    <span className="font-semibold">Settings</span>
-                  </DropdownMenuItem>
+                  <Link to="/profile">
+                    <DropdownMenuItem className="cursor-pointer rounded-xl py-2.5 px-3 focus:bg-blue-50 focus:text-blue-600 transition-colors">
+                      <UserIcon className="w-4 h-4 mr-2" />
+                      <span className="font-semibold">Profile</span>
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to="/dashboard">
+                    <DropdownMenuItem className="cursor-pointer rounded-xl py-2.5 px-3 focus:bg-blue-50 focus:text-blue-600 transition-colors">
+                      <HomeIcon className="w-4 h-4 mr-2" />
+                      <span className="font-semibold">Dashboard</span>
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuSeparator className="bg-gray-50" />
                   <DropdownMenuItem 
                     className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer rounded-xl py-2.5 px-3 transition-colors"
