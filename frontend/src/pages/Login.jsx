@@ -14,10 +14,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import UpdateModal from "../components/components/UpdateModal";
 
 const Login = () => {
   const { login, loading, error, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
 
   const [form, setForm] = useState({
     email: "",
@@ -37,6 +39,12 @@ const Login = () => {
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
+      <UpdateModal 
+        isOpen={isForgotModalOpen} 
+        onClose={() => setIsForgotModalOpen(false)} 
+        mode="forgot" 
+      />
+
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <Link to="/" className="inline-flex items-center gap-2 mb-6">
@@ -76,9 +84,13 @@ const Login = () => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-sm font-bold text-gray-700">Password</Label>
-                  <a href="#" className="text-xs font-semibold text-blue-600 hover:text-blue-500 transition-colors">
+                  <button 
+                    type="button"
+                    onClick={() => setIsForgotModalOpen(true)}
+                    className="text-xs font-semibold text-blue-600 hover:text-blue-500 transition-colors"
+                  >
                     Forgot password?
-                  </a>
+                  </button>
                 </div>
                 <Input
                   id="password"

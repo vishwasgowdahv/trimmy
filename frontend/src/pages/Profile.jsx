@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useUrls } from "../hooks/useUrls";
 import {
@@ -14,13 +14,16 @@ import {
   LogOut,
   Award,
   Star,
-  Zap
+  Zap,
+  Edit2
 } from "lucide-react";
 import { format } from "date-fns";
+import UpdateModal from "../components/components/UpdateModal";
 
 const Profile = () => {
   const { user, getUser, logout } = useAuth();
   const { urls, fetchUrls } = useUrls();
+  const [modalOptions, setModalOptions] = useState({ isOpen: false, mode: "" });
 
   useEffect(() => {
     if (!user) {
@@ -42,8 +45,19 @@ const Profile = () => {
   const level = getLevel(urls?.length || 0);
   const LevelIcon = level.icon;
 
+  const openModal = (mode) => setModalOptions({ isOpen: true, mode });
+  const closeModal = () => setModalOptions({ ...modalOptions, isOpen: false });
+
   return (
     <div className="min-h-screen bg-gray-50/50 py-12">
+      <UpdateModal 
+        isOpen={modalOptions.isOpen} 
+        onClose={closeModal} 
+        mode={modalOptions.mode} 
+        initialData={user}
+        onSuccess={getUser}
+      />
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Header Card */}
         <div className="bg-white rounded-3xl shadow-xl shadow-gray-100 border border-gray-100 overflow-hidden mb-8">
@@ -55,7 +69,10 @@ const Profile = () => {
                   {user?.name?.[0]?.toUpperCase()}
                 </div>
               </div>
-              <button className="mb-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all active:scale-95 shadow-sm flex items-center gap-2 text-xs">
+              <button 
+                onClick={() => openModal("profile")}
+                className="mb-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all active:scale-95 shadow-sm flex items-center gap-2 text-xs"
+              >
                 <Settings size={18} />
                 Edit Profile
               </button>
@@ -145,7 +162,10 @@ const Profile = () => {
               </div>
 
               <div className="space-y-2">
-                <button className="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors group">
+                <button 
+                  onClick={() => openModal("password")}
+                  className="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors group"
+                >
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
                       <Lock size={20} />

@@ -64,6 +64,22 @@ export const authApi = {
     return data;
   },
 
+  updateProfile: async (userData) => {
+    return fetchWithAuth(`${BASE_URL}/auth/update-profile`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+  },
+
+  updatePassword: async (passwordData) => {
+    return fetchWithAuth(`${BASE_URL}/auth/update-password`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(passwordData),
+    });
+  },
+
   refreshToken: async (refreshToken) => {
     const res = await fetch(`${BASE_URL}/auth/refresh`, {
       method: "POST",

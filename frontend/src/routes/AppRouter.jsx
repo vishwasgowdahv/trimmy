@@ -10,6 +10,7 @@ import Home from "../pages/Home.jsx";
 import Landing from "../pages/Landing.jsx";
 import Profile from "../pages/Profile.jsx";
 import Analytics from "../pages/Analytics.jsx";
+import ResetPassword from "../pages/ResetPassword.jsx";
 
 import MainLayout from "../layouts/MainLayout.jsx";
 
@@ -43,6 +44,15 @@ export default function AppRouter() {
             element={
               <PublicRoute>
                 <Signup />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              <PublicRoute>
+                <ResetPassword />
               </PublicRoute>
             }
           />

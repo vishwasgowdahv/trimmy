@@ -32,6 +32,19 @@ async function findUserById(id) {
   return rows[0];
 }
 
+// Update profile info
+async function updateProfile(id, name) {
+  await pool.execute(`UPDATE users SET name = ? WHERE id = ?`, [name, id]);
+}
+
+// Update password
+async function updatePassword(id, hashedPassword) {
+  await pool.execute(`UPDATE users SET password_hash = ? WHERE id = ?`, [
+    hashedPassword,
+    id,
+  ]);
+}
+
 // Verify email
 async function verifyUserEmail(token) {
   const [result] = await pool.execute(
@@ -100,4 +113,6 @@ export {
   setResetToken,
   resetPassword,
   findUserById,
+  updateProfile,
+  updatePassword,
 };

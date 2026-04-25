@@ -16,6 +16,7 @@ export const ENV = {
 
   JWT_SECRET: process.env.JWT_SECRET,
   BASE_URL: process.env.BASE_URL,
+  FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
 
   MAIL_HOST: process.env.MAIL_HOST,
   MAIL_PORT: process.env.MAIL_PORT,

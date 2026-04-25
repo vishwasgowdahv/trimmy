@@ -11,6 +11,8 @@ import {
   setResetToken,
   resetPassword,
   findUserById,
+  updateProfile as updateProfileModel,
+  updatePassword as updatePasswordModel
 } from "../models/userModel.js";
 
 import {
@@ -151,6 +153,45 @@ async function resetPasswordController(req, res) {
   res.status(200).json(new ApiResponse(200, null, "Password reset successful"));
 }
 
+// UPDATE PROFILE
+async function updateProfile(req, res) {
+  try {
+    const { name } = req.body;
+    const userId = req.user.id;
+
+    if (!name) {
+      return res.status(400).json(new ApiResponse(400, null, "Name is required"));
+    }
+
+    await updateProfileModel(userId, name);
+    res.status(200).json(new ApiResponse(200, null, "Profile updated successfully"));
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+// CHANGE PASSWORD
+async function changePassword(req, res) {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    const user = await findUserById(userId);
+    const match = await bcrypt.compare(oldPassword, user.password_hash);
+
+    if (!match) {
+      return res.status(400).json(new ApiResponse(400, null, "Incorrect old password"));
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await updatePasswordModel(userId, hashed);
+
+    res.status(200).json(new ApiResponse(200, null, "Password updated successfully"));
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
 // REFRESH TOKEN
 async function refreshToken(req, res) {
   const { refreshToken } = req.body;
@@ -196,4 +237,6 @@ export {
   resetPasswordController,
   refreshToken,
   getUser,
+  updateProfile,
+  changePassword
 };

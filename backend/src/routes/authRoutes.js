@@ -7,6 +7,8 @@ import {
   resetPasswordController,
   refreshToken,
   getUser,
+  updateProfile,
+  changePassword
 } from "../controllers/authController.js";
 import { authLimiter } from "../middlewares/rateLimiter.js";
 
@@ -28,6 +30,12 @@ router.route("/forgot-password").post(authLimiter, forgotPassword);
 
 // POST /api/v1/auth/reset-password
 router.route("/reset-password").post(authLimiter, resetPasswordController);
+
+// PUT /api/v1/auth/update-profile
+router.route("/update-profile").put(authenticate, updateProfile);
+
+// PUT /api/v1/auth/update-password
+router.route("/update-password").put(authenticate, changePassword);
 
 // POST /api/v1/auth/refresh
 router.route("/refresh").post(refreshToken);
