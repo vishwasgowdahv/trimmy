@@ -18,7 +18,7 @@ export const authLimiter = rateLimit({
 // 🌐 General API limiter
 export const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100, // per IP
+  max: 1000, // per IP
   message: new ApiResponse(
     429,
     null,
