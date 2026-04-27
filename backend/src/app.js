@@ -1,8 +1,15 @@
 import express from "express";
 import cors from "cors";
 import { apiLimiter } from "./middlewares/rateLimiter.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
+
 
 const app = express();
+
+// Use swagger-ui-express
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 app.use(
   cors({
