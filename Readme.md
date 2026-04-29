@@ -106,6 +106,7 @@ Client → Routes → Controllers → Services → Models → MySQL
 Create a `.env` file:
 
 PORT=8000
+CORS=*
 
 DB_HOST=localhost
 DB_PORT=3306
@@ -122,6 +123,7 @@ MAIL_PASS=your_pass
 MAIL_FROM=no-reply@trimmy.com
 
 BASE_URL=http://localhost:8000
+FRONTEND_URL=http://localhost:5173
 
 ---
 
@@ -159,7 +161,7 @@ npm run dev
 
 Swagger docs available at:
 
-/api-docs
+http://localhost:8000/api-docs
 
 ---
 
