@@ -28,8 +28,7 @@ const Footer = () => {
           </div>
 
           {/* Links container for mobile side-by-side */}
-          <div className="grid grid-cols-2 md:contents gap-8 w-full">
-            {/* Quick Links */}
+          {/* <div className="grid grid-cols-2 md:contents gap-8 w-full">
             <div className="space-y-4">
               <h3 className="text-sm font-bold uppercase tracking-wider text-gray-900">
                 Product
@@ -62,7 +61,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Support */}
             <div className="space-y-4">
               <h3 className="text-sm font-bold uppercase tracking-wider text-gray-900">
                 Legal
@@ -94,12 +92,12 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-50 flex flex-col items-center gap-4">
           <p className="text-sm text-gray-400 font-medium text-center">
-            © {year} Trimmy. All rights reserved. Built with ❤️ for the web.
+            © {year} Trimmy. All rights reserved.
           </p>
         </div>
       </div>
