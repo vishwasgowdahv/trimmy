@@ -15,7 +15,7 @@ import {
   Award,
   Star,
   Zap,
-  Edit2
+  Edit2,
 } from "lucide-react";
 import { format } from "date-fns";
 import UpdateModal from "../components/components/UpdateModal";
@@ -37,9 +37,23 @@ const Profile = () => {
 
   // Logic for Link Level Badge
   const getLevel = (count) => {
-    if (count >= 21) return { name: "Link Master", color: "bg-amber-50 text-amber-600 border-amber-200", icon: Zap };
-    if (count >= 6) return { name: "Power User", color: "bg-purple-50 text-purple-600 border-purple-200", icon: Award };
-    return { name: "Starter", color: "bg-blue-50 text-blue-600 border-blue-200", icon: Star };
+    if (count >= 21)
+      return {
+        name: "Link Master",
+        color: "bg-amber-50 text-amber-600 border-amber-200",
+        icon: Zap,
+      };
+    if (count >= 6)
+      return {
+        name: "Power User",
+        color: "bg-purple-50 text-purple-600 border-purple-200",
+        icon: Award,
+      };
+    return {
+      name: "Starter",
+      color: "bg-blue-50 text-blue-600 border-blue-200",
+      icon: Star,
+    };
   };
 
   const level = getLevel(urls?.length || 0);
@@ -50,10 +64,10 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gray-50/50 py-12">
-      <UpdateModal 
-        isOpen={modalOptions.isOpen} 
-        onClose={closeModal} 
-        mode={modalOptions.mode} 
+      <UpdateModal
+        isOpen={modalOptions.isOpen}
+        onClose={closeModal}
+        mode={modalOptions.mode}
         initialData={user}
         onSuccess={getUser}
       />
@@ -69,7 +83,7 @@ const Profile = () => {
                   {user?.name?.[0]?.toUpperCase()}
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => openModal("profile")}
                 className="mb-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all active:scale-95 shadow-sm flex items-center gap-2 text-xs"
               >
@@ -98,6 +112,21 @@ const Profile = () => {
               <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">
                 Your Activity
               </h3>
+
+              {/* New Feature: Link Level Badge */}
+              <div
+                className={`flex flex-col gap-2 p-3 rounded-2xl border ${level.color} transition-all duration-500`}
+              >
+                <div className="flex items-center gap-3">
+                  <LevelIcon size={20} />
+                  <span className="font-bold text-sm uppercase tracking-tight">
+                    Current Status
+                  </span>
+                </div>
+                <p className="text-lg font-black">{level.name}</p>
+              </div>
+
+              {/* Right Column: Total Links */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 bg-blue-50 rounded-2xl">
                   <div className="flex items-center gap-3">
@@ -107,15 +136,6 @@ const Profile = () => {
                   <span className="text-xl font-black text-blue-600">
                     {urls?.length}
                   </span>
-                </div>
-                
-                {/* New Feature: Link Level Badge */}
-                <div className={`flex flex-col gap-2 p-3 rounded-2xl border ${level.color} transition-all duration-500`}>
-                  <div className="flex items-center gap-3">
-                    <LevelIcon size={20} />
-                    <span className="font-bold text-sm uppercase tracking-tight">Current Status</span>
-                  </div>
-                  <p className="text-lg font-black">{level.name}</p>
                 </div>
               </div>
             </div>
@@ -162,7 +182,7 @@ const Profile = () => {
               </div>
 
               <div className="space-y-2">
-                <button 
+                <button
                   onClick={() => openModal("password")}
                   className="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors group"
                 >
