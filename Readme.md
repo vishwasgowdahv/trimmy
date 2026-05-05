@@ -68,7 +68,7 @@ Trimmy is a full-stack URL shortening platform designed with production-grade ar
 
 ### DevOps & Tools
 
-- Docker (optional)
+- Docker
 - Postman
 - Swagger (API documentation)
 
@@ -77,15 +77,28 @@ Trimmy is a full-stack URL shortening platform designed with production-grade ar
 ## 📁 Project Structure
 
 ```
-backend/
-├── src/
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ ├── middlewares/
-│ ├── services/
-│ ├── db/
-│ └── migrations/
+trimmy/
+    backend/
+        src/
+        ├── controllers/
+        ├── models/
+        ├── routes/
+        ├── middlewares/
+        ├── services/
+        ├── db/
+        └── migrations/
+    frontend/
+        src/
+        ├── api/
+        ├── components/
+        ├── contexts/
+        ├── hooks/
+        ├── pages/
+        ├── services/
+        ├── routes/
+        ├── layouts/
+        └── assets/
+        └── components/
 ```
 
 ---
