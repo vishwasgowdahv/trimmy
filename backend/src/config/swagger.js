@@ -83,7 +83,7 @@ const options = {
               "application/json": {
                 schema: {
                   type: "object",
-                  required: ["email", "password"],
+                  required: ["name", "email", "password"],
                   properties: {
                     name: { type: "string" },
                     email: { type: "string" },
