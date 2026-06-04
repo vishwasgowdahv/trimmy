@@ -145,7 +145,7 @@ const Analytics = () => {
             </Link>
             <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight flex items-center gap-3">
               Analytics{" "}
-              <span className="text-blue-600 text-xl md:text-2xl">
+              <span className="text-blue-600 text-xl md:text-3xl">
                 /{shortCode}
               </span>
             </h1>
