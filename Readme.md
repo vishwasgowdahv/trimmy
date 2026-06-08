@@ -174,7 +174,7 @@ npm run dev
 
 Swagger docs available at:
 
-http://localhost:8000/api-docs
+https://trimmy.onrender.com/api-docs
 
 ---
 
