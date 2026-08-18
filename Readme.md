@@ -10,6 +10,12 @@ Trimmy is a full-stack URL shortening platform designed with production-grade ar
 - Backend API: https://trimmy.onrender.com
 
 ---
+## Test Account
+
+- Email: [xmendquick@gmail.com]
+- Password: [Test@123]
+
+---
 
 ## ✨ Features
 
