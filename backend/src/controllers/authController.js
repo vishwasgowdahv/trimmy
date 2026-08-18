@@ -54,7 +54,8 @@ async function signup(req, res) {
         new ApiResponse(201, userId, "Signup successful. Verify your email."),
       );
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.error("[signup] Error:", err.message || err);
+    res.status(500).json({ message: "Server error", detail: err.message });
   }
 }
 

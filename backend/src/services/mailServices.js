@@ -1,22 +1,42 @@
-import nodemailer from "nodemailer";
 import { ENV } from "../config/env.js";
 
-const transporter = nodemailer.createTransport({
-  host: ENV.MAIL_HOST,
-  port: ENV.MAIL_PORT,
-  secure: false,
-  auth: {
-    user: ENV.MAIL_USER,
-    pass: ENV.MAIL_PASS,
-  },
-});
+const MAILTRAP_API_URL = "https://send.api.mailtrap.io/api/send";
+
+/**
+ * Send an email via Mailtrap HTTP API (HTTPS / port 443).
+ * This avoids SMTP port restrictions on platforms like Render free tier,
+ * which block outbound traffic on ports 25, 465, and 587.
+ */
+async function sendMail({ to, subject, html }) {
+  const response = await fetch(MAILTRAP_API_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${ENV.MAIL_APIKEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: { email: ENV.MAIL_FROM, name: "Trimmy" },
+      to: [{ email: to }],
+      subject,
+      html,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(
+      `Mailtrap API error ${response.status}: ${JSON.stringify(error)}`
+    );
+  }
+
+  return response.json();
+}
 
 // Email Verification
 async function sendVerificationEmail(email, token) {
   const link = `${ENV.BASE_URL}/api/v1/auth/verify-email?token=${token}`;
 
-  await transporter.sendMail({
-    from: ENV.MAIL_FROM,
+  await sendMail({
     to: email,
     subject: "Verify your email",
     html: `
@@ -29,11 +49,10 @@ async function sendVerificationEmail(email, token) {
 
 // Password Reset
 async function sendResetEmail(email, token) {
-  // Point to the Frontend UI page
+  // Points to the Frontend UI page
   const link = `${ENV.FRONTEND_URL}/reset-password?token=${token}`;
 
-  await transporter.sendMail({
-    from: ENV.MAIL_FROM,
+  await sendMail({
     to: email,
     subject: "Reset your password",
     html: `

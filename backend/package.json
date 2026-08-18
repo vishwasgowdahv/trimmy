@@ -24,6 +24,7 @@
     "mysql2": "^3.20.0",
     "nanoid": "^5.1.9",
     "nodemailer": "^8.0.5",
+    "serve": "^14.2.6",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ua-parser-js": "^2.0.9"
